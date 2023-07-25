@@ -75,38 +75,25 @@ function App() {
 
   console.log(albums);
 
-  //   async function listen() {
-  //     var albumID = await fetch(
-  //       "https://api.spotify.com/v1/artists/" +
-  //         artistID +
-  //         "/albums" +
-  //         "?include_groups=album&market=US&limit=50",
-  //       searchParameters
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log(data.href);
-  //       });
-
-  //     //   var returnedLink = await fetch()
-  //   }
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    search();
+  }
 
   return (
     <div className="app">
       <Container className="mb-3 mt-3" size="lg">
-        <InputGroup>
-          <FormControl
-            placeholder="Search for artist"
-            type="input"
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                search();
-              }
-            }}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <Button onClick={search}>Search</Button>
-        </InputGroup>
+        <form onSubmit={handleSearchSubmit}>
+          <InputGroup>
+            <FormControl
+              placeholder="Search for artist"
+              type="search"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <Button type="submit">Search</Button>
+          </InputGroup>
+        </form>
       </Container>
       <Container>
         <Row className="row row-cols-4">
@@ -117,7 +104,14 @@ function App() {
                 <Card.Img src={album.images[0].url} />
                 <Card.Body>
                   <Card.Title>{album.name}</Card.Title>
-                  {/* <Button onClick={listen}>Listen</Button> */}
+                  <Button
+                    as="a"
+                    href={album.external_urls.spotify}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Listen
+                  </Button>
                 </Card.Body>
               </Card>
             );
