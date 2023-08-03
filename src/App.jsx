@@ -1,13 +1,25 @@
+import styles from "./App.module.css";
+
+import { RotatingLines } from "react-loader-spinner";
 import { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Container,
-  InputGroup,
-  FormControl,
+  TextField,
   Button,
-  Row,
-  Card,
-} from "react-bootstrap";
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+} from "@mui/material";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import {
+// //   Container,
+// //   InputGroup,
+//   FormControl,
+// //   Button,
+//   Row,
+//   Card,
+// } from "react-bootstrap";
 
 const CLIENT_ID = "9328dd6f81044500b19ecd05dc56aa91";
 const CLIENT_SECRET = "b4859e00926844cab5f5f36e5004ec33";
@@ -16,8 +28,10 @@ function App() {
   const [searchInput, setSearchInput] = useState("");
   const [token, setToken] = useState("");
   const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     // getting token
     var authParameters = {
       method: "POST",
@@ -32,7 +46,8 @@ function App() {
     };
     fetch("https://accounts.spotify.com/api/token", authParameters)
       .then((result) => result.json())
-      .then((data) => setToken(data.access_token));
+      .then((data) => setToken(data.access_token))
+      .finally(() => setLoading(false));
   }, []);
 
   async function search() {
@@ -80,44 +95,97 @@ function App() {
     search();
   }
 
+  //   return (
+  //     <div className="app">
+  //       <RotatingLines
+  //         className={styles.spinner}
+  //         // style={{ position: "fixed", top: "50%", left: "50%" }}
+  //         visible={loading}
+  //       />
+  //       <Container className="mb-3 mt-3" size="lg">
+  //         <form onSubmit={handleSearchSubmit}>
+  //           <InputGroup>
+  //             <FormControl
+  //               placeholder="Search for artist"
+  //               type="search"
+  //               value={searchInput}
+  //               onChange={(e) => setSearchInput(e.target.value)}
+  //             />
+  //             <Button type="submit">Search</Button>
+  //           </InputGroup>
+  //         </form>
+  //       </Container>
+  //       <Container>
+  //         <Row className="row row-cols-4">
+  //           {albums.map((album, i) => {
+  //             // console.log(album);
+  //             return (
+  //               <Card>
+  //                 <Card.Img src={album.images[0].url} />
+  //                 <Card.Body>
+  //                   <Card.Title>{album.name}</Card.Title>
+  //                   <Button
+  //                     as="a"
+  //                     href={album.external_urls.spotify}
+  //                     target="_blank"
+  //                     rel="noreferrer noopener"
+  //                   >
+  //                     Listen
+  //                   </Button>
+  //                 </Card.Body>
+  //               </Card>
+  //             );
+  //           })}
+  //         </Row>
+  //       </Container>
+  //     </div>
+  //   );
+
   return (
     <div className="app">
-      <Container className="mb-3 mt-3" size="lg">
-        <form onSubmit={handleSearchSubmit}>
-          <InputGroup>
-            <FormControl
-              placeholder="Search for artist"
-              type="search"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-            />
-            <Button type="submit">Search</Button>
-          </InputGroup>
-        </form>
-      </Container>
-      <Container>
-        <Row className="row row-cols-4">
-          {albums.map((album, i, key) => {
-            console.log(album);
-            return (
-              <Card>
-                <Card.Img src={album.images[0].url} />
-                <Card.Body>
-                  <Card.Title>{album.name}</Card.Title>
-                  <Button
-                    as="a"
-                    href={album.external_urls.spotify}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Listen
-                  </Button>
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </Row>
-      </Container>
+      <RotatingLines
+        className={styles.spinner}
+        // style={{ position: "fixed", top: "50%", left: "50%" }}
+        visible={loading}
+      />
+      {/* <Container> */}
+      <form onSubmit={handleSearchSubmit} className={styles.InputGroup}>
+        <TextField
+          className={styles.TextField}
+          id="outlined-basic"
+          variant="outlined"
+          placeholder="Search for artist"
+          type="search"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+        <Button variant="contained" type="submit">
+          Search
+        </Button>
+      </form>
+      {/* </Container> */}
+      {/* <Container> */}
+      <List className={styles.Albums}>
+        {albums.map((album, i) => {
+          // console.log(album);
+          return (
+            <ListItem className={styles.Alb}>
+              <img className={styles.image} src={album.images[0].url} />
+              <ListItemText className={styles.title}>{album.name}</ListItemText>
+              <Button
+                className={styles.ListenBtn}
+                variant="contained"
+                href={album.external_urls.spotify}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Listen
+              </Button>
+            </ListItem>
+          );
+        })}
+      </List>
+      {/* </Container> */}
     </div>
   );
 }
