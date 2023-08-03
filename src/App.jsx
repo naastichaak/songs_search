@@ -95,60 +95,14 @@ function App() {
     search();
   }
 
-  //   return (
-  //     <div className="app">
-  //       <RotatingLines
-  //         className={styles.spinner}
-  //         // style={{ position: "fixed", top: "50%", left: "50%" }}
-  //         visible={loading}
-  //       />
-  //       <Container className="mb-3 mt-3" size="lg">
-  //         <form onSubmit={handleSearchSubmit}>
-  //           <InputGroup>
-  //             <FormControl
-  //               placeholder="Search for artist"
-  //               type="search"
-  //               value={searchInput}
-  //               onChange={(e) => setSearchInput(e.target.value)}
-  //             />
-  //             <Button type="submit">Search</Button>
-  //           </InputGroup>
-  //         </form>
-  //       </Container>
-  //       <Container>
-  //         <Row className="row row-cols-4">
-  //           {albums.map((album, i) => {
-  //             // console.log(album);
-  //             return (
-  //               <Card>
-  //                 <Card.Img src={album.images[0].url} />
-  //                 <Card.Body>
-  //                   <Card.Title>{album.name}</Card.Title>
-  //                   <Button
-  //                     as="a"
-  //                     href={album.external_urls.spotify}
-  //                     target="_blank"
-  //                     rel="noreferrer noopener"
-  //                   >
-  //                     Listen
-  //                   </Button>
-  //                 </Card.Body>
-  //               </Card>
-  //             );
-  //           })}
-  //         </Row>
-  //       </Container>
-  //     </div>
-  //   );
-
   return (
     <div className="app">
       <RotatingLines
+        strokeColor="grey"
         className={styles.spinner}
-        // style={{ position: "fixed", top: "50%", left: "50%" }}
+        // style={{ top: "50%", left: "50%" }}
         visible={loading}
       />
-      {/* <Container> */}
       <form onSubmit={handleSearchSubmit} className={styles.InputGroup}>
         <TextField
           className={styles.TextField}
@@ -163,11 +117,8 @@ function App() {
           Search
         </Button>
       </form>
-      {/* </Container> */}
-      {/* <Container> */}
       <List className={styles.Albums}>
         {albums.map((album, i) => {
-          // console.log(album);
           return (
             <ListItem className={styles.Alb}>
               <img className={styles.image} src={album.images[0].url} />
@@ -185,7 +136,6 @@ function App() {
           );
         })}
       </List>
-      {/* </Container> */}
     </div>
   );
 }

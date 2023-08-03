@@ -24,8 +24,11 @@
 
 .Albums {
   width: 1500px;
-  display: flex;
-  flex-wrap: nowrap;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .image {
@@ -33,7 +36,7 @@
 }
 
 .Alb {
-  width: 200px;
+  /* width: 200px; */
   display: flex;
   flex-direction: column;
   margin: 20px;
@@ -48,7 +51,8 @@
 }
 
 .spinner {
-  position: fixed;
-  top: 50%;
+  /* margin: 0 auto; */
+  /* position: fixed;
+  top: 50%; */
   left: 50%;
 }
